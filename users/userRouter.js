@@ -4,13 +4,13 @@ const Posts = require('../posts/postDb');
 
 const router = express.Router();
 
-router.post('/', validateUser, validatePost, (req, res, next) => {
+router.post('/', validateUser, (req, res, next) => {
   Users.insert({ name: req.body.name }).then(user => {
     res.status(200).json(user);
   }).catch(next);
 });
 
-router.post('/:id/posts', validateUserId, (req, res, next) => {
+router.post('/:id/posts', validateUserId, validatePost, (req, res, next) => {
   Posts.insert({ text: req.body.text, user_id: req.user.id }).then(post => {
     res.status(200).json(post);
   }).catch(next);
