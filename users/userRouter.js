@@ -26,12 +26,16 @@ router.get('/:id', validateUserId, (req, res) => {
   res.status(200).json(req.user);
 });
 
-router.get('/:id/posts', validateUserId, (req, res) => {
-
+router.get('/:id/posts', validateUserId, (req, res, next) => {
+  Users.getUserPosts(req.user.id).then(posts => {
+    res.status(200).json(posts);
+  }).catch(next);
 });
 
-router.delete('/:id', validateUserId, (req, res) => {
-
+router.delete('/:id', validateUserId, (req, res, next) => {
+  Users.delete(req.user.id).then(deleted => {
+    res.status(200).json(req.user);
+  }).catch(next);
 });
 
 router.put('/:id', validateUserId, (req, res) => {
@@ -77,5 +81,14 @@ function validatePost(req, res, next) {
     res.status(400).json({ message: "missing post data" });
   }
 };
+
+router.use((error, req, res, next) => {
+  res.status(500).json({
+    file: 'userRouter',
+    method: req.method,
+    url: req.url,
+    message: error.message
+  });
+});
 
 module.exports = router;
