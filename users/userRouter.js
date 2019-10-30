@@ -42,9 +42,10 @@ router.delete('/:id', validateUserId, (req, res, next) => {
   }).catch(next);
 });
 
-router.put('/:id', validateUserId, (req, res, next) => {
-  Users.update(req.user.id, { name: req.body.name }).then(updated => {
-    res.status(200).json({ ...req.user, name: req.body.name });
+router.put('/:id', validateUserId, validateUser, (req, res, next) => {
+  const { name } = req.body;
+  Users.update(req.user.id, { name }).then(updated => {
+    res.status(200).json({ ...req.user, name });
   }).catch(next);
 });
 
