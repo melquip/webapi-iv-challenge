@@ -17,8 +17,12 @@ router.post('/:id/posts', validateUserId, (req, res, next) => {
 });
 
 router.get('/', (req, res, next) => {
-  Users.get().then(userList => {
-    res.status(200).json(userList);
+  Users.get().then(users => {
+    let usersPostsPromises = users.map(user => Users.getUserPosts(user.id));
+    Promise.all(usersPostsPromises).then(usersPostsLists => {
+      const usersWithPosts = users.map((user, i) => ({ ...user, posts: usersPostsLists[i] }));
+      res.status(200).json(usersWithPosts);
+    }).catch(next)
   }).catch(next);
 });
 
