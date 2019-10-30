@@ -87,15 +87,25 @@ p {
   justify-content: space-between;
 }
 
-.user, .post {
-  width: 100%;
-  padding: 20px;
-  background: #333;
+.user {
   max-width: calc((100% / 4) - 20px);
   flex-basis: calc((100% / 4) - 20px);
   margin-bottom: 20px;
+  background: #333;
+}
+.post {
+  padding: 10px;
+  background: #444;
+  margin-bottom: 10px;
+}
+.user, .post {
+  width: 100%;
+  padding: 20px;
 }
 
 .user :first-child, .post :first-child {
   margin-top: 0;
+}
+.user :last-child, .post :last-child {
+  margin-bottom: 0;
 }
