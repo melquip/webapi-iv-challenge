@@ -59,4 +59,5 @@ typings/
 
 # Mac files
 .DS_Store
-.vscode/launch.json
+.vscode
+.env
