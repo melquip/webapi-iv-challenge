@@ -2,9 +2,8 @@
   "name": "webapi-blog",
   "version": "1.0.0",
   "description": "Web API Blog Project",
-  "main": "index.js",
   "scripts": {
-    "server": "nodemon index.js"
+    "start": "node index.js"
   },
   "engines": {
     "node": "12.13.0",
