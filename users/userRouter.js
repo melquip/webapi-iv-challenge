@@ -10,12 +10,21 @@ router.post('/', validateUser, (req, res, next) => {
   }).catch(next);
 });
 
+/*
 router.post('/:id/posts', validateUserId, validatePost, (req, res, next) => {
   Posts.insert({ text: req.body.text, user_id: req.user.id }).then(post => {
     res.status(200).json(post);
   }).catch(next);
 });
-
+*/
+router.post('/:id/posts', validateUserId, validatePost, async (req, res, next) => {
+  try {
+    const post = await Posts.insert({ text: req.body.text, user_id: req.user.id })
+    res.status(200).json(post);
+  } catch(err) {
+    next(err);
+  }
+});
 router.get('/', (req, res, next) => {
   Users.get().then(users => {
     let usersPostsPromises = users.map(user => Users.getUserPosts(user.id));

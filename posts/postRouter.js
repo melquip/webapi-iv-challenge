@@ -18,12 +18,22 @@ router.delete('/:id', validatePostId, (req, res, next) => {
     res.status(200).json(res.post);
   }).catch(next);
 });
-
+/*
 router.put('/:id', validatePostId, (req, res, next) => {
   const { text } = req.body;
   Posts.update(req.post.id, { text }).then(updated => {
     res.status(200).json({ ...req.post, text });
   }).catch(next);
+});
+*/
+router.put('/:id', validatePostId, async (req, res, next) => {
+  try {
+    const { text } = req.body;
+    const updated = await Posts.update(req.post.id, { text });
+    res.status(200).json({ ...req.post, text });
+  } catch (error) {
+    next(error);
+  }
 });
 
 // custom middleware
