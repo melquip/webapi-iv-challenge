@@ -14,9 +14,9 @@ function App() {
 
   const [postForm, setPostForm] = useState(initialPostFormState);
   const [isEditingPost, setEditingPost] = useState(0);
-
+  const baseUrl = process.env.NODE_ENV === 'development' ? process.env.REACT_APP_API : '';
   useEffect(() => {
-    axios.get('http://localhost:4000/api/users').then(response => {
+    axios.get(baseUrl + '/api/users').then(response => {
       setUsers(response.data);
     }).catch(err => console.log(err));
   }, []);
@@ -28,11 +28,11 @@ function App() {
   const onUserSubmit = e => {
     e.preventDefault();
     if (isEditingUser === 0) {
-      axios.post('http://localhost:4000/api/users', userForm).then(response => {
+      axios.post(baseUrl + '/api/users', userForm).then(response => {
         setUsers([...users, { ...userForm, id: response.data.id }]);
       }).catch(err => console.log(err));
     } else {
-      axios.put('http://localhost:4000/api/users/' + isEditingUser, userForm).then(response => {
+      axios.put(baseUrl + '/api/users/' + isEditingUser, userForm).then(response => {
         setUsers(users.map(user => {
           if (Number(user.id) === isEditingUser) return { ...user, ...userForm }
           return user;
@@ -50,11 +50,11 @@ function App() {
   const onPostSubmit = e => {
     /*e.preventDefault();
     if (isEditingPost === 0) {
-      axios.post('http://localhost:4000/api/users', postForm).then(response => {
+      axios.post(baseUrl + '/api/users', postForm).then(response => {
         setPosts([...posts, { ...postForm, id: response.data.id }]);
       }).catch(err => console.log(err));
     } else {
-      axios.put('http://localhost:4000/api/posts/' + isEditingPost, postForm).then(response => {
+      axios.put(baseUrl + '/api/posts/' + isEditingPost, postForm).then(response => {
         setPosts(posts.map(post => {
           if (Number(post.id) === isEditingPost) return { ...post, ...postForm }
           return post;
@@ -71,7 +71,7 @@ function App() {
   }
 
   const removeUser = id => e => {
-    axios.delete('http://localhost:4000/api/users/' + id).then(response => {
+    axios.delete(baseUrl + '/api/users/' + id).then(response => {
       setUsers(users.filter(user => Number(user.id) !== Number(id)));
     }).catch(err => console.log(err));
   }
@@ -82,7 +82,7 @@ function App() {
   }
 
   const removePost = (id, userid) => e => {
-    /*axios.delete('http://localhost:4000/api/posts/' + id).then(response => {
+    /*axios.delete(baseUrl + '/api/posts/' + id).then(response => {
       setPosts(posts.filter(post => Number(post.id) !== Number(id)));
     }).catch(err => console.log(err));*/
   }
